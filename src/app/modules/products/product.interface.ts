@@ -5,7 +5,10 @@ export type TPrice = {
   unofficial?: number;
 };
 export type TVariants = { type: string; value: string }[];
-export type TInventory = { quantity: number; inStock: boolean };
+export type TInventory = {
+  quantity: number;
+  inStock: "In Stock" | "Out of Stock";
+};
 export type TManufacturer = { name: string; contact: string };
 export type TDimensions = { length: number; width: number; height: number };
 export type TDisplay = {
@@ -39,6 +42,7 @@ export type TSpecifications = {
 };
 
 export type TProduct = {
+  id: string;
   name: string;
   description: string;
   price: TPrice;
@@ -49,9 +53,9 @@ export type TProduct = {
   manufacturer: TManufacturer;
   dimensions: TDimensions;
   weight: number;
-  images: string;
+  images?: string;
   specifications: TSpecifications;
-  releaseDate: string;
+  releaseDate?: string;
   isDeleted: boolean;
 };
 
