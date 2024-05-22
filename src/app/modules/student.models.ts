@@ -6,7 +6,6 @@ import {
   TUserName,
   StudentModel,
 } from "./student/student.interface";
-import bcrypt from "bcrypt";
 import config from "../config";
 // import validator from "validator";
 
@@ -181,14 +180,14 @@ studentSchema.virtual("fullName").get(function () {
   );
 });
 //pre save middleware/hook
-studentSchema.pre("save", async function (next) {
-  const user = this;
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds)
-  );
-  next();
-});
+// studentSchema.pre("save", async function (next) {
+//   const user = this;
+//   user.password = await bcrypt.hash(
+//     user.password,
+//     Number(config.bcrypt_salt_rounds)
+//   );
+//   next();
+// });
 
 // post save middleware
 studentSchema.post("save", function (doc, next) {
