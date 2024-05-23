@@ -43,7 +43,84 @@ const getAllProduct = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await productServices.getSingleProductFromDB(productId);
+    res.status(200).json({
+      success: true,
+      message: "Single product fetched",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Something went wrong",
+      error: error,
+    });
+  }
+};
+const searchProduct = async (req: Request, res: Response) => {
+  try {
+    const searchTerm = req.query.searchTerm || "";
+    const result = await productServices.searchProductFromDB(searchTerm);
+    res.status(200).json({
+      success: true,
+      message: "Product fetched",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Something went wrong",
+      error: error,
+    });
+  }
+};
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await productServices.deleteProductFromDB(productId);
+    res.status(200).json({
+      success: true,
+      message: "A product deleted successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Something went wrong",
+      error: error,
+    });
+  }
+};
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const { product: productData } = req.body;
+    const result = await productServices.updateProductFromDB(
+      productId,
+      productData
+    );
+    res.status(200).json({
+      success: true,
+      message: "A product updated successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Something went wrong",
+      error: error,
+    });
+  }
+};
+
 export const productController = {
   createProduct,
   getAllProduct,
+  getSingleProduct,
+  deleteProduct,
+  updateProduct,
+  searchProduct,
 };

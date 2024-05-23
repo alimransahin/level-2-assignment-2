@@ -91,10 +91,21 @@ const ProductSchema = new Schema<TProduct>({
   isDeleted: { type: Boolean, required: true, default: false },
 });
 
+ProductSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+ProductSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+ProductSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
 ProductSchema.statics.isProductExists = async function (id: string) {
   const existingProduct = await Product.findOne({ id });
   return existingProduct;
 };
-
 // Create and export the model
 export const Product = model<TProduct, ProductModel>("Product", ProductSchema);
