@@ -16,9 +16,11 @@ const getSingleProductFromDB = async (id: string) => {
   const result = await Product.findOne({ id });
   return result;
 };
-const searchProductFromDB = async (searchTerm: any) => {
+
+const searchProductFromDB = async (query: any) => {
+  const regex = new RegExp(query, "i"); // 'i' for case-insensitive
   const result = await Product.find({
-    name: { $regex: searchTerm, $options: "i" },
+    tags: regex, // Adding search condition for tags
   });
   return result;
 };
@@ -29,9 +31,12 @@ const deleteProductFromDB = async (id: string) => {
 
 const updateProductFromDB = async (id: string, updatedFields: object) => {
   const updateFields = { ...updatedFields };
-  const result = await Product.updateOne({ id }, updateFields);
-  return result;
+  const updatedProduct = await Product.findOneAndUpdate({ id }, updateFields, {
+    new: true,
+  }).lean();
+  return updatedProduct;
 };
+
 export const productServices = {
   createProductIntoDB,
   getAllProductsFromDB,

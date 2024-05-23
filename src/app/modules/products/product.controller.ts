@@ -60,15 +60,15 @@ const getSingleProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
 const searchProduct = async (req: Request, res: Response) => {
   try {
-    const searchTerm = req.query.searchTerm || "";
-    const result = await productServices.searchProductFromDB(searchTerm);
-    res.status(200).json({
-      success: true,
-      message: "Product fetched",
-      data: result,
-    });
+    const { query } = req.query;
+    if (!query) {
+      return res.status(400).json({ message: "Query parameter is required" });
+    }
+    const result = await productServices.searchProductFromDB(query);
+    res.json(result);
   } catch (error: any) {
     res.status(500).json({
       success: false,
@@ -97,15 +97,17 @@ const deleteProduct = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const { product: productData } = req.body;
-    const result = await productServices.updateProductFromDB(
+    const updateProductData = req.body;
+
+    const updatedProduct = await productServices.updateProductFromDB(
       productId,
-      productData
+      updateProductData
     );
+
     res.status(200).json({
       success: true,
       message: "A product updated successfully",
-      data: result,
+      data: updatedProduct,
     });
   } catch (error: any) {
     res.status(500).json({
