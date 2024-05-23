@@ -49,7 +49,7 @@ const InventorySchema = new Schema<TInventory>({
   },
 });
 const PriceSchema = new Schema<TPrice>({
-  official: { type: Number, required: true },
+  official: { type: Number, message: "must be a number", required: true },
   unofficial: Number,
 });
 const SpecificationsSchema = new Schema<TSpecifications>({
