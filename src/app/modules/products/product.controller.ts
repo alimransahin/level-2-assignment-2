@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import productValidationSchema from "./product.validation";
 import { productServices } from "./product.service";
@@ -14,7 +15,6 @@ const createProduct = async (req: Request, res: Response) => {
     });
     // console.log(req.body);
   } catch (error: any) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message:
@@ -29,7 +29,6 @@ const createProduct = async (req: Request, res: Response) => {
 const getSearchProduct = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
-    console.log(searchTerm);
     if (searchTerm) {
       const result = await productServices.searchProductFromDB(searchTerm);
       res.status(200).json({
@@ -96,7 +95,7 @@ const updateProduct = async (req: Request, res: Response) => {
 
     const updatedProduct = await productServices.updateProductFromDB(
       productId,
-      updateProductData
+      updateProductData,
     );
 
     res.status(200).json({

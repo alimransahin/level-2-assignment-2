@@ -125,7 +125,7 @@ const productValidationSchema = z.object({
       type: z.string({ required_error: "Variant type is a required field." }),
       value: z.string({ required_error: "Variant value is a required field." }),
     }),
-    { required_error: "At least one variant is required." }
+    { required_error: "At least one variant is required." },
   ),
   inventory: inventoryValidationSchema,
   manufacturer: manufacturerValidationSchema,

@@ -64,13 +64,6 @@ export interface ProductModel extends Model<TProduct> {
   isProductExists(id: string): Promise<TProduct | null>;
 }
 
-// Example usage
-const productVariants: TVariants = [
-  { type: "Color", value: "Red" },
-  { type: "Size", value: "Medium" },
-];
-
-// Example Schema (simplified)
 const productSchema = new Schema<TProduct, ProductModel>({
   id: { type: String, required: true },
   name: { type: String, required: true },
@@ -81,7 +74,7 @@ const productSchema = new Schema<TProduct, ProductModel>({
   },
   category: { type: String, required: true },
   tags: [{ type: String, required: true }],
-  variants: [{ type: Object, required: true }], // Simplified for demonstration
+  variants: [{ type: Object, required: true }],
   inventory: {
     quantity: { type: Number, required: true },
     inStock: {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Product } from "../product.model";
 import { TProduct } from "./product.interface";
 
@@ -15,7 +16,7 @@ const getAllProductsFromDB = async () => {
 };
 const searchProductFromDB = async (query: any) => {
   const queryResult = { tags: { $in: query } };
-  console.log(queryResult);
+
   const result = await Product.find(queryResult);
   return result;
 };

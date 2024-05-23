@@ -1,10 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Order } from "../order.model";
+import { Product } from "../product.model";
 import { TOrder } from "./order.interface";
 
 const createOrderIntoDB = async (productData: TOrder) => {
-  const result = await Order.create(productData);
-  console.log(result);
-  return result;
+  if (await Product.isProductExists(productData.productId)) {
+    const result = await Order.create(productData);
+
+    return result;
+  } else {
+    throw new Error("Order not found");
+  }
 };
 
 const getAllOrderFromDB = async () => {
