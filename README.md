@@ -44,4 +44,4 @@ Make sure you have the following installed on your local development machine:
    npm start
    ```
 
-   The API should now be running on `http://localhost:3000`.
+   The API should now be running on `http://localhost:5000`.
