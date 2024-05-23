@@ -2,6 +2,5 @@ import express from "express";
 import { orderController } from "./order.controller";
 const router = express.Router();
 router.post("/create-order", orderController.createOrder);
-// router.get("/", orderController.getAllOrder);
-router.get("/", orderController.searchOrder);
+router.get("/", orderController.getAllOrSearchOrder);
 export const orderRoutes = router;

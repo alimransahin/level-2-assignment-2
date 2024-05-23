@@ -8,22 +8,23 @@ const createProductIntoDB = async (productData: TProduct) => {
   const result = await Product.create(productData);
   return result;
 };
+
 const getAllProductsFromDB = async () => {
   const result = await Product.find();
   return result;
 };
+const searchProductFromDB = async (query: any) => {
+  const queryResult = { tags: { $in: query } };
+  console.log(queryResult);
+  const result = await Product.find(queryResult);
+  return result;
+};
+
 const getSingleProductFromDB = async (id: string) => {
   const result = await Product.findOne({ id });
   return result;
 };
 
-const searchProductFromDB = async (query: any) => {
-  const regex = new RegExp(query, "i"); // 'i' for case-insensitive
-  const result = await Product.find({
-    tags: regex, // Adding search condition for tags
-  });
-  return result;
-};
 const deleteProductFromDB = async (id: string) => {
   const result = await Product.updateOne({ id }, { isDeleted: true });
   return result;
