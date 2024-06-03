@@ -17,8 +17,8 @@ Make sure you have the following installed on your local development machine:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/product-management-api.git
-   cd product-management-api
+   git clone https://github.com/alimransahin/level-2-assignment-2.git
+   cd level-2-assignment-2
    ```
 
 2. **Install dependencies:**
@@ -32,11 +32,9 @@ Make sure you have the following installed on your local development machine:
    Create a `.env` file in the root of the project and add the following environment variables:
 
    ```env
-   PORT=3000
-   MONGODB_URI=mongodb://localhost:27017/productsdb
+   PORT=5000
+   DATABASE_URL='mongodb+srv://assignment2_user:assignment2_user@cluster0.vgokw2y.mongodb.net/assignment-2?retryWrites=true&w=majority&appName=Cluster0'
    ```
-
-   Replace `mongodb://localhost:27017/productsdb` with your actual MongoDB connection string if different.
 
 4. **Run the application:**
 
