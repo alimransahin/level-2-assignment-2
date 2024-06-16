@@ -4,6 +4,7 @@ import { Product } from "../product.model";
 import { TOrder } from "./order.interface";
 
 const createOrderIntoDB = async (productData: TOrder) => {
+  console.log(productData);
   if (await Product.isProductExists(productData.productId)) {
     const result = await Order.create(productData);
 

@@ -5,7 +5,7 @@ import { productServices } from "./product.service";
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
+    const productData = req.body;
     const zodParsedData = productValidationSchema.parse(productData);
     const result = await productServices.createProductIntoDB(zodParsedData);
     res.status(200).json({
@@ -89,13 +89,14 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 const updateProduct = async (req: Request, res: Response) => {
+  // console.log(req.body);
   try {
     const { productId } = req.params;
     const updateProductData = req.body;
 
     const updatedProduct = await productServices.updateProductFromDB(
       productId,
-      updateProductData,
+      updateProductData
     );
 
     res.status(200).json({
