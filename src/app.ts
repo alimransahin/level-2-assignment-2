@@ -2,6 +2,7 @@ import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import { productRoutes } from "./app/modules/products/products.routes";
 import { orderRoutes } from "./app/modules/order/order.routes";
+import notFound from "./app/modules/notFound";
 
 const app: Application = express();
 
@@ -16,5 +17,6 @@ app.get("/", (req: Request, res: Response) => {
   const s = "Hello World!";
   res.send(s);
 });
+app.use(notFound);
 
 export default app;

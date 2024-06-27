@@ -2,55 +2,31 @@ import { z } from "zod";
 
 // Define Zod Validation schemas for nested objects
 const dimensionsValidationSchema = z.object({
-  length: z
-    .number({
-      required_error: "Length is a required field and must be a number.",
-    })
-    .min(0, "Length must be a non-negative number."),
-  width: z
-    .number({
-      required_error: "Width is a required field and must be a number.",
-    })
-    .min(0, "Width must be a non-negative number."),
-  height: z
-    .number({
-      required_error: "Height is a required field and must be a number.",
-    })
-    .min(0, "Height must be a non-negative number."),
+  length: z.number().optional(),
+  width: z.number().optional(),
+  height: z.number().optional(),
 });
 
 const displayValidationSchema = z.object({
-  type: z.string({ required_error: "Display type is a required field." }),
-  size: z.string({ required_error: "Display size is a required field." }),
-  resolution: z.string({
-    required_error: "Display resolution is a required field.",
-  }),
-  aspectRatio: z.string({
-    required_error: "Aspect ratio is a required field.",
-  }),
-  pixelDensity: z.string({
-    required_error: "Pixel density is a required field.",
-  }),
-  screenToBodyRatio: z.string({
-    required_error: "Screen-to-body ratio is a required field.",
-  }),
-  protection: z.string({
-    required_error: "Screen protection is a required field.",
-  }),
-  brightness: z.string({ required_error: "Brightness is a required field." }),
-  notch: z.string({ required_error: "Notch information is a required field." }),
+  type: z.string().optional(),
+  size: z.string().optional(),
+  resolution: z.string().optional(),
+  aspectRatio: z.string().optional(),
+  pixelDensity: z.string().optional(),
+  screenToBodyRatio: z.string().optional(),
+  protection: z.string().optional(),
+  brightness: z.string().optional(),
+  notch: z.string().optional(),
 });
 
 const cameraValidationSchema = z.object({
-  mainCamera: z.string({ required_error: "Main camera details are required." }),
-  frontCamera: z.string({
-    required_error: "Front camera details are required.",
-  }),
+  mainCamera: z.string().optional(),
+  frontCamera: z.string().optional(),
 });
 
 const batteryValidationSchema = z.object({
-  type: z.string({ required_error: "Battery type is a required field." }),
-  charging: z.string({ required_error: "Charging details are required." }),
+  type: z.string().optional(),
+  charging: z.string().optional(),
 });
 
 const inventoryValidationSchema = z.object({
@@ -60,55 +36,35 @@ const inventoryValidationSchema = z.object({
     })
     .int("Quantity must be an integer.")
     .nonnegative("Quantity must be a non-negative number."),
-  inStock: z.enum(["In Stock", "Out of Stock"], {
+  inStock: z.boolean({
     required_error: "Stock status is a required field.",
   }),
 });
 
-const priceValidationSchema = z.object({
-  official: z
-    .number({
-      required_error:
-        "Official price is a required field and must be a number.",
-    })
-    .min(0, "Official price must be a non-negative number."),
-  unofficial: z
-    .number({ invalid_type_error: "Unofficial price must be a number." })
-    .optional(),
-});
+const priceValidationSchema = z
+  .number({
+    required_error: "Price is a required field and must be a number.",
+  })
+  .min(0, "Price must be a non-negative number.");
 
 const specificationsValidationSchema = z.object({
-  operatingSystem: z.string({
-    required_error: "Operating system details are required.",
-  }),
-  userInterface: z.string({
-    required_error: "User interface details are required.",
-  }),
-  cpu: z.string({ required_error: "CPU details are required." }),
-  cpuCores: z
-    .number({
-      required_error:
-        "Number of CPU cores is a required field and must be a number.",
-    })
-    .int("CPU cores must be an integer."),
+  operatingSystem: z.string().optional(),
+  userInterface: z.string().optional(),
+  cpu: z.string().optional(),
+  cpuCores: z.number().optional(),
   display: displayValidationSchema,
   camera: cameraValidationSchema,
   battery: batteryValidationSchema,
-  features: z.array(z.string(), {
-    required_error: "At least one feature is required.",
-  }),
+  features: z.array(z.string()).optional(),
 });
 
 const manufacturerValidationSchema = z.object({
-  name: z.string({ required_error: "Manufacturer name is a required field." }),
-  contact: z.string({
-    required_error: "Manufacturer contact details are required.",
-  }),
+  name: z.string().optional(),
+  contact: z.string().optional(),
 });
 
 // Define the main Validation schema for the product
 const productValidationSchema = z.object({
-  id: z.string({ required_error: "Product ID is a required field." }),
   name: z.string({ required_error: "Product name is a required field." }),
   description: z.string({
     required_error: "Product description is a required field.",
@@ -125,21 +81,16 @@ const productValidationSchema = z.object({
       type: z.string({ required_error: "Variant type is a required field." }),
       value: z.string({ required_error: "Variant value is a required field." }),
     }),
-    { required_error: "At least one variant is required." },
+    { required_error: "At least one variant is required." }
   ),
   inventory: inventoryValidationSchema,
-  manufacturer: manufacturerValidationSchema,
-  dimensions: dimensionsValidationSchema,
-  weight: z
-    .number({
-      required_error:
-        "Product weight is a required field and must be a number.",
-    })
-    .min(0, "Weight must be a non-negative number."),
+  manufacturer: manufacturerValidationSchema.optional(),
+  dimensions: dimensionsValidationSchema.optional(),
+  weight: z.number().optional(),
   images: z
     .string({ required_error: "Product images are required." })
     .optional(),
-  specifications: specificationsValidationSchema,
+  specifications: specificationsValidationSchema.optional(),
   releaseDate: z
     .string({ required_error: "Release date is a required field." })
     .optional(),

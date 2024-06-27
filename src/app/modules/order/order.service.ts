@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Order } from "../order.model";
-import { Product } from "../product.model";
+// import { Product } from "../products/product.model";
+import { productServices } from "../products/product.service";
 import { TOrder } from "./order.interface";
+import { Order } from "./order.model";
 
 const createOrderIntoDB = async (productData: TOrder) => {
-  if (await Product.isProductExists(productData.productId)) {
+  // const id = productData.productId;
+  if (await productServices.getSingleProductFromDB(productData.productId)) {
     const result = await Order.create(productData);
-
     return result;
   } else {
-    throw new Error("Order not found");
+    throw new Error("Product not found");
   }
 };
 

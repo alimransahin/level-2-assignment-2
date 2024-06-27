@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Product } from "../product.model";
+import { Product } from "./product.model";
 import { TProduct } from "./product.interface";
 
 const createProductIntoDB = async (productData: TProduct) => {
-  if (await Product.isProductExists(productData.id)) {
+  if (await Product.isProductExists(productData.name)) {
     throw new Error("This product already Exists");
   }
   const result = await Product.create(productData);
@@ -21,19 +21,19 @@ const searchProductFromDB = async (query: any) => {
   return result;
 };
 
-const getSingleProductFromDB = async (id: string) => {
-  const result = await Product.findOne({ id });
+const getSingleProductFromDB = async (_id: string) => {
+  const result = await Product.findOne({ _id });
   return result;
 };
 
-const deleteProductFromDB = async (id: string) => {
-  const result = await Product.updateOne({ id }, { isDeleted: true });
+const deleteProductFromDB = async (_id: string) => {
+  const result = await Product.updateOne({ _id }, { isDeleted: true });
   return result;
 };
 
-const updateProductFromDB = async (id: string, updatedFields: object) => {
+const updateProductFromDB = async (_id: string, updatedFields: object) => {
   const updateFields = { ...updatedFields };
-  const updatedProduct = await Product.findOneAndUpdate({ id }, updateFields, {
+  const updatedProduct = await Product.findOneAndUpdate({ _id }, updateFields, {
     new: true,
   }).lean();
   return updatedProduct;

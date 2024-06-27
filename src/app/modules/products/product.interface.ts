@@ -1,108 +1,98 @@
 import { Schema, model, Model } from "mongoose";
 
-// Define your types
-export type TPrice = {
-  official: number;
-  unofficial?: number;
-};
 export type TVariants = { type: string; value: string }[];
 export type TInventory = {
   quantity: number;
-  inStock: "In Stock" | "Out of Stock";
+  inStock: boolean;
 };
-export type TManufacturer = { name: string; contact: string };
-export type TDimensions = { length: number; width: number; height: number };
+export type TManufacturer = { name?: string; contact?: string };
+export type TDimensions = { length?: number; width?: number; height?: number };
 export type TDisplay = {
-  type: string;
-  size: string;
-  resolution: string;
-  aspectRatio: string;
-  pixelDensity: string;
-  screenToBodyRatio: string;
-  protection: string;
-  brightness: string;
-  notch: string;
+  type?: string;
+  size?: string;
+  resolution?: string;
+  aspectRatio?: string;
+  pixelDensity?: string;
+  screenToBodyRatio?: string;
+  protection?: string;
+  brightness?: string;
+  notch?: string;
 };
 export type TCamera = {
-  mainCamera: string;
-  frontCamera: string;
+  mainCamera?: string;
+  frontCamera?: string;
 };
 export type TBattery = {
-  type: string;
-  charging: string;
+  type?: string;
+  charging?: string;
 };
 export type TSpecifications = {
-  operatingSystem: string;
-  userInterface: string;
-  cpu: string;
-  cpuCores: number;
-  display: TDisplay;
-  camera: TCamera;
-  battery: TBattery;
-  features: string[];
+  operatingSystem?: string;
+  userInterface?: string;
+  cpu?: string;
+  cpuCores?: number;
+  display?: TDisplay;
+  camera?: TCamera;
+  battery?: TBattery;
+  features?: string[];
 };
 
 export type TProduct = {
-  id: string;
   name: string;
   description: string;
-  price: TPrice;
+  price: number;
   category: string;
   tags: string[];
   variants: TVariants; // Note that TVariants is already an array type
   inventory: TInventory;
-  manufacturer: TManufacturer;
-  dimensions: TDimensions;
-  weight: number;
+  manufacturer?: TManufacturer;
+  dimensions?: TDimensions;
+  weight?: number;
   images?: string;
-  specifications: TSpecifications;
+  specifications?: TSpecifications;
   releaseDate?: string;
   isDeleted: boolean;
 };
 
 export interface ProductModel extends Model<TProduct> {
-  isProductExists(id: string): Promise<TProduct | null>;
+  isProductExists(name: string): Promise<TProduct | null>;
 }
 
 const productSchema = new Schema<TProduct, ProductModel>({
-  id: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
-  price: {
-    official: { type: Number, required: true },
-    unofficial: Number,
-  },
+  price: { type: Number, required: true },
+
   category: { type: String, required: true },
   tags: [{ type: String, required: true }],
   variants: [{ type: Object, required: true }],
   inventory: {
     quantity: { type: Number, required: true },
     inStock: {
-      type: String,
-      enum: ["In Stock", "Out of Stock"],
+      type: Boolean,
       required: true,
     },
   },
   manufacturer: {
-    name: { type: String, required: true },
-    contact: { type: String, required: true },
+    name: { type: String },
+    contact: { type: String },
   },
   dimensions: {
-    length: { type: Number, required: true },
-    width: { type: Number, required: true },
-    height: { type: Number, required: true },
+    length: { type: Number },
+    width: { type: Number },
+    height: { type: Number },
   },
-  weight: { type: Number, required: true },
+  weight: { type: Number },
   images: { type: String },
   specifications: {
-    operatingSystem: { type: String, required: true },
-    userInterface: { type: String, required: true },
-    cpu: { type: String, required: true },
-    cpuCores: { type: Number, required: true },
-    display: { type: Object, required: true },
-    camera: { type: Object, required: true },
-    battery: { type: Object, required: true },
-    features: [{ type: String, required: true }],
+    operatingSystem: { type: String },
+    userInterface: { type: String },
+    cpu: { type: String },
+    cpuCores: { type: Number },
+    display: { type: Object },
+    camera: { type: Object },
+    battery: { type: Object },
+    features: [{ type: String }],
   },
   releaseDate: { type: String },
   isDeleted: { type: Boolean, required: true },
